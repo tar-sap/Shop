@@ -23,7 +23,7 @@ app.set('view engine', 'ejs');
 app.get('/', async (req, res, next) => {
   try {
     const shops = await service.getAllShops();
-    res.render('shops', { title: 'Магазини', shops: shops });
+    res.render('shops', { title: 'Shops', shops: shops });
   } catch (error) {
     res.status(error.statusCode || 500).render('error', { title: 'Error', error });
   }

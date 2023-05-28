@@ -194,3 +194,6 @@ input[type="tel"],
 .selectedShop {
     background-color: #c0bdbd;
 }
+.nav-link {
+    cursor: pointer;
+}
