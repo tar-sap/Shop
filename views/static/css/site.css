@@ -1,0 +1,196 @@
+body {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.nav-link {
+    color: aquamarine;
+}
+
+.navbar-nav .nav-link.active {
+    color: rgb(199, 199, 199);
+
+}
+
+.navbar-brand img {
+    width: 100px;
+}
+
+.navbar-toggler {
+    background-color: rgb(199, 199, 199);
+    ;
+}
+
+.sidebar {
+    color: aquamarine;
+
+}
+
+.slide-text {
+    color: rgb(66, 65, 63);
+    margin: auto auto;
+    font-size: 30px;
+}
+
+@media (max-width: 755px) {
+    .carousel-indicators {
+        display: none;
+    }
+}
+
+.page {
+    margin-top: 100px;
+}
+
+.map {
+    margin-left: 70px;
+}
+
+h1 {
+    color: rgb(66, 65, 63);
+}
+
+.shop-card {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #343a40;
+}
+
+.shop-card:hover {
+    background-color: #495057;
+}
+
+.product-card {
+    background-color: #343a40;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.product-card:hover {
+    background-color: #495057;
+}
+
+.card-title,
+.card-text,
+.btn {
+    color: #fff;
+}
+
+h1 {
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+.quantity-input {
+    background-color: #353535;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.shop-cart {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.card {
+    background-color: #252525;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.card-title {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.quantity-input {
+    border: 1px solid #595858;
+    border-radius: 5px;
+    padding: 5px;
+    width: 70px;
+}
+
+.coupon-input {
+    border: 1px solid #828282;
+    border-radius: 5px;
+    padding: 8px;
+    width: 100%;
+}
+
+.order-details {
+    margin-top: 30px;
+}
+
+.order-details .label {
+    font-weight: bold;
+}
+
+.order-details .value {
+    margin-left: 10px;
+}
+
+.thankyou-message {
+    text-align: center;
+    margin-top: 30px;
+    color: #888;
+}
+
+
+.order-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.order-summary {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.shop-products {
+    flex: 1;
+}
+
+.product {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.product img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.discount-percentage {
+    text-align: center;
+    font-size: 54px;
+    font-weight: bold;
+}
+
+.selectedShop {
+    background-color: #c0bdbd;
+}

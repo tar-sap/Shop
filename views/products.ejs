@@ -1,0 +1,166 @@
+<section class="page">
+  <div class="container-fluid my-3">
+    <div class="row">
+      <div class="col-lg-3 col-md-12">
+        <% for (var i=0; i < shops.length; i++) { %>
+          <div class="my-3 card shop-card <%= shops.products[0].shop_id == shops[i].id ? 'selectedShop' : '' %>"
+            data-shop-id="<%= shops[i].id %>">
+            <div class="card-body text-center">
+              <h5 class="card-title text-white">
+                <%= shops[i].name %>
+              </h5>
+            </div>
+          </div>
+          <% } %>
+      </div>
+      <div class="col-lg-9 col-md-12">
+        <div class="row">
+          <% for (var i=0; i < shops.products.length; i++) { %>
+            <div class="col-lg-4 col-md-6 mt-3">
+              <div class="card product-card" data-product-id="<%= shops.products[i].id %>"
+                data-shop-id="<%= shops.products[i].shop_id %>">
+                <img src="/img/<%= shops.products[i].photo %>" class="card-img-top" alt="<%= shops.products[i].name %>" />
+                <div class="card-body">
+                  <h5 class="card-title text-center text-white">
+                    <%= shops.products[i].name %>
+                  </h5>
+                  <p class="card-text text-center text-white">
+                    <%= shops.products[i].description %>
+                  </p>
+                  <a href="#" class="btn btn-primary col-12">Add to Cart</a>
+                  <a href="#" class="btn btn-danger col-12" style="display: none;">Remove from Cart</a>
+                </div>
+              </div>
+            </div>
+            <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : {};
+
+    const productCards = document.querySelectorAll('.product-card');
+    productCards.forEach(card => {
+      const productId = card.dataset.productId;
+      const shopId = card.dataset.shopId;
+      const addButton = card.querySelector('.btn-primary');
+      const removeButton = card.querySelector('.btn-danger');
+
+      if (cartItems[shopId] && cartItems[shopId].includes(productId)) {
+        addButton.style.display = 'none';
+        removeButton.style.display = 'inline-block';
+      }
+
+      addButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        addToCart(productId, shopId);
+        disableOtherShops(shopId);
+      });
+
+      removeButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        removeFromCart(productId, shopId);
+        disableOtherShops(shopId);
+      });
+    });
+
+    const shopCards = document.querySelectorAll('.shop-card');
+    shopCards.forEach(card => {
+      const shopId = card.dataset.shopId;
+      if (cartItems[shopId]) {
+        card.classList.add('disabled');
+      } else {
+        card.addEventListener('click', onShopCardClick);
+      }
+    });
+  });
+
+  function addToCart(productId, shopId) {
+    const cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : {};
+
+    if (cartItems[shopId]) {
+      if (!cartItems[shopId].includes(productId)) {
+        cartItems[shopId].push(productId);
+      }
+    } else {
+      cartItems[shopId] = [productId];
+    }
+
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    updateCartButtons(productId, shopId);
+  }
+
+  function removeFromCart(productId, shopId) {
+    const cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : {};
+
+    if (cartItems[shopId]) {
+      const index = cartItems[shopId].indexOf(productId);
+      if (index !== -1) {
+        cartItems[shopId].splice(index, 1);
+      }
+    }
+
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    updateCartButtons(productId, shopId);
+  }
+
+  function updateCartButtons(productId, shopId) {
+    const productCards = document.querySelectorAll('.product-card');
+
+    productCards.forEach(card => {
+      const cardProductId = card.dataset.productId;
+      const cardShopId = card.dataset.shopId;
+      const addButton = card.querySelector('.btn-primary');
+      const removeButton = card.querySelector('.btn-danger');
+
+      if (cardProductId === productId && cardShopId === shopId) {
+        if (localStorage.getItem('cartItems')) {
+          const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+          if (cartItems[shopId] && cartItems[shopId].includes(productId)) {
+            addButton.style.display = 'none';
+            removeButton.style.display = 'inline-block';
+          } else {
+            addButton.style.display = 'inline-block';
+            removeButton.style.display = 'none';
+          }
+        }
+      }
+    });
+  }
+
+  function disableOtherShops(shopId) {
+    const shopCards = document.querySelectorAll('.shop-card');
+    shopCards.forEach(card => {
+      if (card.dataset.shopId !== shopId) {
+        card.classList.add('disabled');
+      }
+    });
+  }
+
+  function onShopCardClick() {
+    const shopId = this.dataset.shopId;
+    const cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : {};
+
+    const hasItemsInCart = Object.keys(cartItems).some(key => key !== shopId && cartItems[key].length > 0);
+
+    if (hasItemsInCart) {
+      if (!confirm('In the cart, there are items from another store. Clear the cart and proceed to a new store?')) {
+        return;
+      }
+
+      localStorage.removeItem('cartItems');
+    }
+
+    window.location.href = `/shops/${shopId}/products`;
+  }
+
+  const shopCards = document.querySelectorAll('.shop-card');
+  shopCards.forEach(card => {
+    card.addEventListener('click', onShopCardClick);
+  });
+
+</script>

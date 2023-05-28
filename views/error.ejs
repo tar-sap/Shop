@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            background-color: #212121;
+            font-family: Arial, sans-serif;
+        }
+
+        .error-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #606060;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-container">
+        <h1>Error <%= error.statusCode %>
+        </h1>
+        <p>
+            <%= error.message %>
+        </p>
+        <% if (error.details) { %>
+            <p>
+                <%= error.details %>
+            </p>
+            <% } %>
+                <p>We're sorry, but an error occurred while processing your request.</p>
+                <p>Please try again later.</p>
+    </div>
+</body>
+
+</html>

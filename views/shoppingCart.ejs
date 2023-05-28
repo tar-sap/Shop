@@ -1,0 +1,91 @@
+<section class="container-fluid page">
+  <% if (shop && shop.products.length> 0) { %>
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="col-10 col-md-6 offset-1 my-2">
+          <h1>Enter shopping data:</h1>
+        </div>
+        <form action="/createOrder" method="POST">
+          <div>
+            <input type="text" name="name" placeholder="Name" class="col-10 offset-1 my-2" required>
+          </div>
+          <div>
+            <input type="email" name="email" placeholder="Enter Email" class="col-10 offset-1 my-2" required>
+          </div>
+          <div>
+            <input type="tel" name="phone" placeholder="Enter Mobile Phone" class="col-10 offset-1 my-2" required>
+          </div>
+          <div>
+            <input type="tel" name="address" placeholder="Enter Address" class="col-10 offset-1 my-2" required>
+          </div>
+      </div>
+      <div class="col-lg-5 col-md-12 shop-cart">
+        <div class="row">
+          <% shop.products.forEach(product=> { %>
+            <div class="col-lg-4 col-md-6 mt-3">
+              <div class="card">
+                <img src="/img/<%= product.photo %>" class="card-img-top" alt="<%= product.name %>" />
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= product.name %>
+                  </h5>
+                  <p class="card-text">
+                    <%= product.description %>
+                  </p>
+                  <p class="card-text">
+                    Price: $<%= product.price %>
+                  </p>
+                  <input type="number" name="products[<%= product.id %>][quantity]" value="1" min="1" max="100"
+                    placeholder="Qty" class="quantity-input col-10 offset-1 my-2" onchange="updatePrice()">
+                  <input type="hidden" name="products[<%= product.id %>][price]" value="<%= product.price %>" readonly>
+                  <input type="hidden" name="products[<%= product.id %>][id]" value="<%= product.id %>">
+                </div>
+              </div>
+            </div>
+            <% }); %>
+        </div>
+        <div class="row">
+          <div class="col-3 mt-3">
+            <input type="text" name="coupon" placeholder="Enter Coupon" class="coupon-input col-3 offset-1 my-2">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mt-3 text-center">
+            <h3>Total Price: $<span id="totalPrice">0</span></h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mt-3 text-center">
+            <button type="submit" class="btn btn-primary">Checkout</button>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+    <% } else { %>
+      <div class="row">
+        <div class="col-12 mt-3">
+          <p class="text-center" style="font-size: 54px;">Please add something to your cart first</p>
+        </div>
+      </div>
+      <% } %>
+</section>
+
+<script>
+  function updatePrice() {
+    const products = document.querySelectorAll(".card-body");
+    let totalPrice = 0;
+
+    products.forEach((product) => {
+      const quantity = product.querySelector(".quantity-input").value;
+      const price = product.querySelector("input[name^='products'][name$='[price]']").value;
+      const productTotalPrice = quantity * price;
+      totalPrice += productTotalPrice;
+    });
+
+    const totalPriceElement = document.getElementById("totalPrice");
+    totalPriceElement.innerText = totalPrice.toFixed(2);
+  }
+
+  document.addEventListener("DOMContentLoaded", updatePrice);
+</script>

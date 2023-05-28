@@ -1,0 +1,66 @@
+<div class="container">
+  <h1>Thank You for Your Order!</h1>
+
+  <div class="col-10 offset-2 order-details">
+    <div class="order-summary">
+      <p><span class="label">Transaction Number:</span> <span class="value">
+          <%= order.transaction_number %>
+        </span></p>
+      <p><span class="label">Purchase Date:</span> <span class="value">
+          <%= order.purchase_date.toLocaleString() %>
+        </span></p>
+      <p><span class="label">Name:</span> <span class="value">
+          <%= order.name %>
+        </span></p>
+      <p><span class="label">Email:</span> <span class="value">
+          <%= order.email %>
+        </span></p>
+      <p><span class="label">Phone:</span> <span class="value">
+          <%= order.phone %>
+        </span></p>
+      <p><span class="label">Address:</span> <span class="value">
+          <%= order.address %>
+        </span></p>
+      <% if (order.coupon) { %>
+        <p><span class="label">Coupon:</span> <span class="value">
+            <%= order.coupon.code %> (<%= order.coupon.discount %>% off)
+          </span></p>
+        <p><span class="label">Total Price:</span> <span class="value">$<%= order.order_price %> - <%=
+                order.coupon.discount %>% = $<%= (order.order_price - (order.order_price * order.coupon.discount / 100))
+                  %></span></p>
+        <% } else { %>
+          <p><span class="label">Total Price:</span> <span class="value">$<%= order.order_price %></span></p>
+          <% } %>
+    </div>
+
+    <div class="shop-products">
+      <p><span class="label">Shop:</span> <span class="value">
+          <%= order.shop[0].name %>
+        </span></p>
+      <br />
+      <% order.shop.products.forEach(product=> { %>
+        <div class="product">
+          <img src="/img/<%= product.photo %>" alt="<%= product.name %>">
+          <div class="product-details">
+            <p class="product-name">
+              <%= product.name %>
+            </p>
+            <p><span class="label">Price:</span> <span class="value">$<%= product.price %></span></p>
+            <p><span class="label">Quantity:</span> <span class="value">
+                <%= product.quantity %>
+              </span></p>
+          </div>
+        </div>
+        <br />
+        <% }) %>
+    </div>
+  </div>
+
+  <p class="thankyou-message">Thank you for your order!</p>
+</div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    localStorage.clear();
+  });
+</script>

@@ -1,0 +1,52 @@
+<section class="page">
+  <div class="row">
+  </div>
+  <div class="col-lg-10 offset-1 col-md-12">
+    <div class="row">
+      <% for (let i=0; i < coupons.length; i++) { %>
+        <div class="col-lg-3 col-md-3 my-3">
+          <div class="card">
+            <div class="discount-percentage">
+              <%= coupons[i].discount %>% off
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">
+                Name: <%= coupons[i].name %>
+              </h5>
+              <p class="card-text">
+                Code: <%= coupons[i].code %>
+              </p>
+              <button class="btn btn-primary copy-button"
+                onclick="copyCouponCode(this, '<%= coupons[i].code %>')">Copy</button>
+            </div>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </div>
+</section>
+
+<script>
+  function copyCouponCode(button, code) {
+    var copyButtons = document.getElementsByClassName('copy-button');
+
+    for (var i = 0; i < copyButtons.length; i++) {
+      copyButtons[i].textContent = 'Copy';
+      copyButtons[i].disabled = false;
+    }
+
+    var tempInput = document.createElement('input');
+    tempInput.value = code;
+    document.body.appendChild(tempInput);
+
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999);
+
+    document.execCommand('copy');
+
+    document.body.removeChild(tempInput);
+
+    button.textContent = 'Copied';
+    button.disabled = true;
+  }
+</script>
